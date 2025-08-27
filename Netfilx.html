@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Netflix – Clone (HTML + CSS only)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#000000;
+      --muted:#b3b3b3;
+      --card:#141414;
+      --accent:#e50914;
+      --accent-2:#b20710;
+      --text:#ffffff;
+      --radius:18px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial;
+      background:var(--bg);
+      color:var(--text);
+    }
+    /* NAV */
+    .nav{
+      position:fixed; inset:0 0 auto 0; height:68px; display:flex; align-items:center; justify-content:space-between;
+      padding:0 clamp(16px,5vw,72px); z-index:10; background:linear-gradient(180deg, rgba(0,0,0,.7), rgba(0,0,0,0));
+    }
+    .logo{font-weight:900; letter-spacing:1px; color:var(--text); font-size:28px}
+    .logo span{color:var(--accent)}
+    .nav .actions{display:flex; gap:12px; align-items:center}
+    .btn{appearance:none; border:0; padding:10px 16px; border-radius:999px; font-weight:600; cursor:pointer}
+    .btn.light{background:#ffffff; color:#000}
+    .btn.accent{background:var(--accent); color:#fff}
+
+    /* HERO */
+    .hero{
+      position:relative; min-height:84vh; display:grid; place-items:center; text-align:center; padding:120px 24px 64px;
+      background:radial-gradient(1200px 600px at 60% -20%, rgba(229,9,20,.25), transparent 60%),
+                 linear-gradient(180deg, rgba(0,0,0,.65), rgba(0,0,0,.35) 45%, #000 100%),
+                 url('https://images.unsplash.com/photo-1517602302552-471fe67acf66?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+      isolation:isolate;
+    }
+    .hero h1{font-size:clamp(28px,5vw,52px); margin:0 0 12px; font-weight:800}
+    .hero p{font-size:clamp(16px,2.5vw,22px); margin:0 0 24px; color:var(--muted)}
+    .email-form{display:flex; gap:12px; width:min(720px, 92vw); margin-inline:auto; flex-wrap:wrap}
+    .email-form input{
+      flex:1 1 300px; background:rgba(20,20,20,.85); border:1px solid #2c2c2c; color:#fff; padding:14px 16px; border-radius:999px; outline:none;
+    }
+    .email-form button{flex:0 0 auto}
+
+    /* STRIP */
+    .strip{padding:28px clamp(16px,5vw,72px); background:linear-gradient(180deg,#000, #0b0b0b)}
+    .row-title{font-size:20px; font-weight:700; margin:10px 0 12px}
+    .cards{display:grid; grid-auto-flow:column; grid-auto-columns:clamp(160px,18vw,220px); gap:16px; overflow-x:auto; padding-bottom:6px; scroll-snap-type:x mandatory}
+    .card{background:var(--card); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); scroll-snap-align:start; position:relative}
+    .card img{display:block; width:100%; aspect-ratio:16/9; object-fit:cover;}
+    .card .meta{padding:10px 12px; font-size:14px; color:var(--muted)}
+
+    /* FEATURE BLOCKS */
+    .features{display:grid; gap:28px; padding:48px clamp(16px,5vw,72px)}
+    .feature{display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center; background:linear-gradient(180deg,#0a0a0a,#000); padding:24px; border-radius:var(--radius)}
+    .feature:nth-child(even){grid-template-columns:.9fr 1.1fr}
+    .feature h3{margin:0 0 10px; font-size:28px}
+    .feature p{margin:0; color:var(--muted)}
+    .feature .ph{border-radius:12px; overflow:hidden; box-shadow:var(--shadow)}
+    .ph img{width:100%; display:block; object-fit:cover}
+    @media (max-width: 880px){
+      .feature{grid-template-columns:1fr}
+      .feature:nth-child(even){grid-template-columns:1fr}
+    }
+
+    /* FAQ (details/summary – no JS) */
+    .faq{padding:36px clamp(16px,5vw,72px)}
+    .faq h2{margin:0 0 10px}
+    details{background:#0d0d0d; border:1px solid #1e1e1e; border-radius:12px; padding:14px 16px; margin:12px 0}
+    summary{cursor:pointer; font-weight:600}
+    details p{color:var(--muted)}
+
+    /* FOOTER */
+    footer{padding:36px clamp(16px,5vw,72px); color:#9aa0a6; background:#000; border-top:1px solid #151515}
+    .grid{display:grid; grid-template-columns:repeat(4, minmax(120px, 1fr)); gap:12px}
+    .grid a{color:#9aa0a6; text-decoration:none; font-size:14px}
+    .grid a:hover{color:#fff}
+    @media (max-width:720px){.grid{grid-template-columns:repeat(2, minmax(120px, 1fr));}}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <header class="nav">
+    <div class="logo"><span>NET</span>FLIX</div>
+    <div class="actions">
+      <button class="btn light">English ▾</button>
+      <button class="btn accent">Sign In</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <h1>Unlimited movies, TV shows and more.</h1>
+      <p>Watch anywhere. Cancel anytime. Ready to watch? Enter your email to create or restart your membership.</p>
+      <form class="email-form" onsubmit="return false">
+        <input type="email" placeholder="Email address" required>
+        <button class="btn accent">Get Started →</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ROWS -->
+  <section class="strip">
+    <div class="row">
+      <div class="row-title">Trending Now</div>
+      <div class="cards">
+        <article class="card"><img src="https://images.unsplash.com/photo-1520899419090-7f1a7d5f7db9?q=80&w=1200&auto=format&fit=crop" alt="Poster"><div class="meta">Action</div></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=1200&auto=format&fit=crop" alt="Poster"><div class="meta">Drama</div></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1466921583968-f07aa80c526e?q=80&w=1200&auto=format&fit=crop" alt="Poster"><div class="meta">Sci‑Fi</div></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1526948128573-703ee1aeb6fa?q=80&w=1200&auto=format&fit=crop" alt="Poster"><div class="meta">Comedy</div></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1517602302552-471fe67acf66?q=80&w=1200&auto=format&fit=crop" alt="Poster"><div class="meta">Thriller</div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="feature">
+      <div>
+        <h3>Enjoy on your TV.</h3>
+        <p>Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV, Blu‑ray players and more.</p>
+      </div>
+      <div class="ph"><img src="https://images.unsplash.com/photo-1593359677879-68c625dfb640?q=80&w=1400&auto=format&fit=crop" alt="TV"></div>
+    </div>
+
+    <div class="feature">
+      <div class="ph"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1400&auto=format&fit=crop" alt="Devices"></div>
+      <div>
+        <h3>Watch everywhere.</h3>
+        <p>Stream unlimited movies and TV shows on your phone, tablet, laptop and TV.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div>
+        <h3>Create profiles for kids.</h3>
+        <p>Send kids on adventures with their favourite characters in a space made just for them—free with your membership.</p>
+      </div>
+      <div class="ph"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop" alt="Kids"></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What is Netflix?</summary>
+      <p>Netflix is a streaming service that offers a wide variety of award‑winning TV shows, movies, anime, documentaries and more.</p>
+    </details>
+    <details>
+      <summary>How much does Netflix cost?</summary>
+      <p>Plans vary by region. This clone is just a static demo made with HTML and CSS.</p>
+    </details>
+    <details>
+      <summary>Where can I watch?</summary>
+      <p>Watch anywhere, on any device with a browser. This demo is responsive and works on mobile and desktop.</p>
+    </details>
+  </section>
+
+  <footer>
+    <div class="grid">
+      <a href="#">FAQ</a>
+      <a href="#">Help Centre</a>
+      <a href="#">Account</a>
+      <a href="#">Media Centre</a>
+      <a href="#">Investor Relations</a>
+      <a href="#">Jobs</a>
+      <a href="#">Ways to Watch</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Privacy</a>
+      <a href="#">Cookie Preferences</a>
+      <a href="#">Corporate Information</a>
+      <a href="#">Contact Us</a>
+    </div>
+  </footer>
+</body>
+</html>
